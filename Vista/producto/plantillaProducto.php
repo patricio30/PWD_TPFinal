@@ -8,7 +8,7 @@ class PDF extends FPDF{
 		$this->SetFont('Helvetica','BU',20);
 		$this->SetTextColor(28, 68, 158);
 		$this->Cell(30);
-		$this->Cell(150,30, 'DETALLES DEL PRODUCTO',0,0,'C');
+		$this->Cell(150,30, 'Detalles del Producto',0,0,'C');
 		$this->Ln(20);
 	}
 		
@@ -17,7 +17,7 @@ class PDF extends FPDF{
 		$this->SetFont('Arial','I', 12);
 		$this->Cell(0,10, 'Pagina '.$this->PageNo().'/{nb}',0,0,'C' );
 		$this->Ln(5);
-		$this->Cell(0,10, utf8_decode('Grupo N°3 - Victoria Perez Gonzalez - Patricio Rubio - Sergio Valicenti'),0,0,'C');
+		$this->Cell(0,10, utf8_decode('Grupo N°3 - Patricio Rubio'),0,0,'C');
 	}
 
 

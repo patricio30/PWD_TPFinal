@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 04-12-2022 a las 22:07:58
+-- Tiempo de generación: 12-02-2023 a las 22:35:44
 -- Versión del servidor: 10.3.16-MariaDB
 -- Versión de PHP: 7.3.8
 
@@ -39,9 +39,7 @@ CREATE TABLE `compra` (
 --
 
 INSERT INTO `compra` (`idcompra`, `cofecha`, `idusuario`) VALUES
-(1, '2022-12-05 00:19:34', 3),
-(2, '2022-12-05 00:38:11', 4),
-(3, '2022-12-05 00:51:35', 3);
+(1, '2023-02-12 21:16:39', 3);
 
 -- --------------------------------------------------------
 
@@ -62,17 +60,11 @@ CREATE TABLE `compraestado` (
 --
 
 INSERT INTO `compraestado` (`idcompraestado`, `idcompra`, `idcompraestadotipo`, `cefechaini`, `cefechafin`) VALUES
-(1, 1, 1, '2022-12-05 00:19:35', '2022-12-05 00:25:28'),
-(2, 1, 2, '2022-12-05 00:25:28', '2022-12-05 00:40:52'),
-(3, 2, 1, '2022-12-05 00:38:12', '2022-12-05 00:38:26'),
-(4, 2, 2, '2022-12-05 00:38:26', '2022-12-05 00:41:57'),
-(5, 1, 3, '2022-12-05 00:40:52', '2022-12-05 00:41:02'),
-(6, 1, 4, '2022-12-05 00:41:02', '0000-00-00 00:00:00'),
-(7, 2, 5, '2022-12-05 00:41:57', '0000-00-00 00:00:00'),
-(8, 3, 1, '2022-12-05 00:51:35', '2022-12-05 00:51:47'),
-(9, 3, 2, '2022-12-05 00:51:47', '2022-12-05 00:57:54'),
-(10, 3, 3, '2022-12-05 00:57:54', '2022-12-05 00:57:58'),
-(11, 3, 4, '2022-12-05 00:57:58', '0000-00-00 00:00:00');
+(1, 1, 1, '2023-02-12 21:16:40', '2023-02-12 21:16:54'),
+(2, 1, 2, '2023-02-12 21:16:54', '2023-02-12 21:17:17'),
+(3, 1, 3, '2023-02-12 21:17:17', '2023-02-12 21:17:27'),
+(4, 1, 4, '2023-02-12 21:17:27', '2023-02-12 21:19:13'),
+(5, 1, 6, '2023-02-12 21:19:13', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -93,9 +85,10 @@ CREATE TABLE `compraestadotipo` (
 INSERT INTO `compraestadotipo` (`idcompraestadotipo`, `cetdescripcion`, `cetdetalle`) VALUES
 (1, 'borrador', 'cuando el usuario : cliente almacena productos para su posterior compra'),
 (2, 'iniciada', 'cuando el usuario : cliente inicia la compra de uno o mas productos del carrito'),
-(3, 'aceptada', 'cuando el usuario : administrador da ingreso a uno de las compras en estado = 1 '),
-(4, 'enviada', 'cuando el usuario : administrador envia a uno de las compras en estado =2 '),
-(5, 'cancelada', 'un usuario : administrador podra cancelar una compra en cualquier estado y un usuario cliente solo en estado=1 ');
+(3, 'aceptada', 'cuando el usuario : administrador da ingreso a uno de las compras en estado = 2 '),
+(4, 'enviada', 'cuando el usuario : administrador envia a uno de las compras en estado =3'),
+(5, 'cancelada', 'un usuario : administrador podra cancelar una compra en cualquier estado y un usuario cliente solo en estado=1 '),
+(6, 'finalizada', 'Cuando el cliente recibe la compra');
 
 -- --------------------------------------------------------
 
@@ -115,8 +108,8 @@ CREATE TABLE `compraitem` (
 --
 
 INSERT INTO `compraitem` (`idcompraitem`, `idproducto`, `idcompra`, `cicantidad`) VALUES
-(1, 1, 1, 5),
-(5, 1, 3, 4);
+(1, 1, 1, 2),
+(2, 2, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -188,9 +181,9 @@ CREATE TABLE `producto` (
 --
 
 INSERT INTO `producto` (`idproducto`, `pronombre`, `prodetalle`, `procantstock`, `proestado`, `proprecio`) VALUES
-(1, 'REEF 5167', 'Frente y patillas de grilamid. Pendrive de 4GB oculto en terminal de patillas.Forma cuadrado. Medidas 52 19 142', 1, 1, 20000),
-(2, 'REEF 198', 'Con alta transparencia, mejor resistencia a los impactos, reduciendo la posibilidad de roturas durante el montaje. Ópticamente superiores y con 100% protección UV.', 5, 1, 25000),
-(3, 'REEF 182', 'Lentes de policarbonato con tecnología Comfort, 10 veces más resistente a los impactos que las lentes de plástico, y 35% más livianas y delgadas que las lentes de plástico estándar.', 5, 1, 25000),
+(1, 'REEF 5167', 'Frente y patillas de grilamid. Pendrive de 4GB oculto en terminal de patillas.Forma cuadrado. Medidas 52 19 142', 3, 1, 20000),
+(2, 'REEF 198', 'Con alta transparencia, mejor resistencia a los impactos, reduciendo la posibilidad de roturas durante el montaje. Ópticamente superiores y con 100% protección UV.', 3, 1, 25000),
+(3, 'REEF 182', 'Lentes de policarbonato con tecnología Comfort, 10 veces más resistente a los impactos que las lentes de plástico, y 35% más livianas y delgadas que las lentes de plástico estándar.', 4, 1, 25000),
 (4, 'REEF 127', 'Lentes de policarbonato con tecnología Comfort. Este modelo está a la vanguardia de la moda, con un armazón extra grande con detalles en las patillas', 5, 1, 30000),
 (5, 'RAY BAN C', 'Ancho Puente: 51 21 mm. Altura de los cristales:43.9 mm. Longitud de la patilla: 145 mm. Género: Unisex. Color del armazón:Polished Black. Color del lente:Green. Polarizados', 4, 1, 55000),
 (6, 'RAY BAN S', 'Ancho Puente: 49,2mm. Altura de los cristales: 41mm. Longitud de la patilla: 145mm. Garantía: 12 meses por fallas de fabricacion. Género: Unisex. Color del armazón: Pulido Negro. Color del lente: Verde', 3, 1, 45000),
@@ -246,10 +239,11 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`idusuario`, `usnombre`, `uspass`, `usmail`, `usdeshabilitado`) VALUES
-(1, 'ADMIN', '202cb962ac59075b964b07152d234b70', 'admin@admin.com', NULL),
+(1, 'ADMIN', '202cb962ac59075b964b07152d234b70', 'patohrg@gmail.com', '0000-00-00 00:00:00'),
 (2, 'DEPOSITO', '202cb962ac59075b964b07152d234b70', 'deposito@deposito.com', '0000-00-00 00:00:00'),
-(3, 'CLIENTE1', '202cb962ac59075b964b07152d234b70', 'cliente1@cliente1.com', '0000-00-00 00:00:00'),
-(4, 'CLIENTE2', '202cb962ac59075b964b07152d234b70', 'cliente2@cliente2.com', '0000-00-00 00:00:00');
+(3, 'CLIENTE1', '202cb962ac59075b964b07152d234b70', 'belen.villagran1993@gmail.com', '0000-00-00 00:00:00'),
+(4, 'CLIENTE2', '202cb962ac59075b964b07152d234b70', 'patriciorubiogarces@gmail.com', '0000-00-00 00:00:00'),
+(5, 'CLIENTE3', '202cb962ac59075b964b07152d234b70', 'patohrg@gmail.com', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -271,7 +265,8 @@ INSERT INTO `usuariorol` (`idusuario`, `idrol`) VALUES
 (1, 3),
 (2, 3),
 (3, 2),
-(4, 2);
+(4, 2),
+(5, 2);
 
 --
 -- Índices para tablas volcadas
@@ -361,19 +356,19 @@ ALTER TABLE `usuariorol`
 -- AUTO_INCREMENT de la tabla `compra`
 --
 ALTER TABLE `compra`
-  MODIFY `idcompra` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `idcompra` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `compraestado`
 --
 ALTER TABLE `compraestado`
-  MODIFY `idcompraestado` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `idcompraestado` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `compraitem`
 --
 ALTER TABLE `compraitem`
-  MODIFY `idcompraitem` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `idcompraitem` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `menu`
@@ -397,7 +392,7 @@ ALTER TABLE `rol`
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `idusuario` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `idusuario` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Restricciones para tablas volcadas

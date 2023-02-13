@@ -11,20 +11,9 @@ $link = $_SERVER['REQUEST_URI'];
 if($objTrans->tieneAcceso($objMenus, $link)){
 
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//ES" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html>
-  <head>
-  <title>Listar productos</title>
-  <link rel="icon" type="image/png" href="../img/logo.ico"/>
-  <link rel="stylesheet" type="text/css" href="../css/estilos.css">
-  <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
-  <link rel="stylesheet" type="text/css" href="../css/dataTables.bootstrap5.min.css">
-  <link rel="stylesheet" type="text/css" href="../sweetalert/sweetalert2.min.css">
-  </head>
-<body class="fondo"><br><br>
   
-  <div class="container">
-    <div class="container" align="center"><span class="titulo2">PRODUCTOS</span></div><br>
+  <div class="container" id="mycontainer"><br>
+    <div align="center"><span class="titulo2">PRODUCTOS</span></div><br>
   
     <a class="btn btn-success" id="botonAltaProducto" role="button" href="nuevoProducto.php?accion=nuevo&id=-1">Nuevo</a><br>
     <table id="ejemplo" class="table table-striped table-bordered" style="width:100%">
@@ -77,20 +66,16 @@ if($objTrans->tieneAcceso($objMenus, $link)){
         </tbody>
     </table>
   </div><br><br>
-    
-    <script type="text/javascript" src="../sweetalert/sweetalert2.min.js"></script>
-    <script type="text/javascript" src="../js/jquery-3.5.1.js"></script>
-    <script type="text/javascript" src="../js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript"src="../js/dataTables.bootstrap5.min.js"></script> 
   </body>
 </html>
 <?php
   }
   else{ ?>
-      <br>
-      <div style="text-align: center;"><span style="color:#3498DB;  font-size: 40px;"><?php echo "No tiene permisos";?></span></div>
-      <div style="text-align: center;"><span style="color:#3498DB;  font-size: 25px;"><?php echo "Sera redirigido";?></span></div>
-      <meta http-equiv="refresh" content="2;url=../principal/home.php"/>
+      <!--br>
+      <div style="text-align: center;"><span style="color:#3498DB;  font-size: 40px;"><?php //echo "No tiene permisos";?></span></div>
+      <div style="text-align: center;"><span style="color:#3498DB;  font-size: 25px;"><?php //echo "Sera redirigido";?></span></div>
+      <meta http-equiv="refresh" content="2;url=../principal/home.php"/-->
+      <meta http-equiv="refresh" content="0;url=../principal/home.php" />
 
     <?php   
   }

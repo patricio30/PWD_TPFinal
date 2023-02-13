@@ -19,22 +19,7 @@ $cantidadRoles = count($rolesUsuario);
 
 
 ?>
-
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <title><?php echo "Alta de usuario"?></title>
-  <link rel="icon" type="image/png" href="../img/logo.ico"/>
-  <link rel="stylesheet" type="text/css" href="../css/estilos.css">
-  <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
-  <script type="text/javascript" src="../js/jquery-3.5.1.js"></script>
-  <script type="text/javascript" src="../js/bootstrap.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="../sweetalert/sweetalert2.min.css">
-  <script type="text/javascript" src="../sweetalert/sweetalert2.min.js" ></script>
-</head>
-
-<body class="fondo"><br><br>
-<div class="container" align="center">
+<div class="container" align="center" id="mycontainer"><br>
 
     <span class="titulo2"><?php echo "EDICION DE USUARIO" ?></span><br><br>
 
@@ -85,9 +70,9 @@ $cantidadRoles = count($rolesUsuario);
         </div>  
 
         <div class="form-group col-md-12">
-          <div class="float-left" style="color:black">* Datos obligatorios</div>
           <button class="btn btn-responsive float-right" type="submit" id="botonInsertar" title="Insertar">Actualizar</button><br>
-            <a href="index.php">Volver</a>
+          <div class="float-left" style="color:red">* Datos obligatorios</div>
+          <a class="botonVolver" href="index.php">Volver</a>
         </div>
     </form><br><br>
 </div>
@@ -107,7 +92,7 @@ else{
 
 <script type="text/javascript">
 $('#botonInsertar').click(function(evento){
-    pregunta = '¿Desea dar de alta el usuario?';
+    pregunta = '¿Desea dar de alta al usuario?';
     evento.preventDefault();
     if(validarFormulario()){
         Swal.fire({
@@ -173,7 +158,7 @@ function validarFormulario(){
       title: $mensaje1,
       text: $mensaje2,
       allowOutsideClick: false,
-      width:'600px',
+      width:'500px',
       imageWidth: '160px',
     });
     return false;
@@ -185,7 +170,7 @@ function validarFormulario(){
       title: $mensaje1,
       text: $mensaje2,
       confirmButtonColor: '#3498DB', 
-      width:'600px',
+      width:'500px',
       allowOutsideClick: false,
     }).then(function(){window.location.replace("index.php");});
     return false;
@@ -196,7 +181,7 @@ function validarFormulario(){
 
 <style type="text/css">
 .input-group { 
-  width: 35%;
+  width: 30%;
   margin-bottom: 15px;
 }
 </style>

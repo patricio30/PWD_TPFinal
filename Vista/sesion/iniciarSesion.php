@@ -1,5 +1,8 @@
 <?php
-include_once("../estructura/cabecera.php");
+include_once '../../configuracion.php';
+$objTrans = new Session();
+$resp = $objTrans->validar();
+if(!$resp){
 ?>
 
 <!DOCTYPE html>
@@ -7,7 +10,7 @@ include_once("../estructura/cabecera.php");
 <head>
   <title><?php echo "Inicio de sesion"?></title>
   <link rel="icon" type="image/png" href="../img/logo.ico"/>
-  <link rel="stylesheet" type="text/css" href="../css/estilos.css">
+  <link rel="stylesheet" type="text/css" href="../css/estilos.css?v7">
   <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
   <script type="text/javascript" src="../js/jquery-3.5.1.js"></script>
   <script type="text/javascript" src="../js/bootstrap.min.js"></script>
@@ -16,41 +19,48 @@ include_once("../estructura/cabecera.php");
 </head>
 
 <body class="fondo"><br><br>
-<div class="container" align="center">
+<div class="container" align="center"><br>
 
-    <span class="titulo2"><?php echo "INICIAR SESION" ?></span><br><br>
+    <span class="titulo2"><?php echo "INICIAR SESIÓN" ?></span><br><br>
 
     <form method="post" id="formularioSesion" enctype="multipart/form-data">
 
         <label class="subtitulo">Nombre *</label><br/>
         <div class="input-group mx-auto">
-          <input type="text" id="usnombre" name="usnombre" class="form-control" maxlength="50" style="text-transform: uppercase; border-color: #3498DB">
+          <input type="text" id="usnombre" name="usnombre" class="form-control" maxlength="50" autocomplete="off" style="text-transform: uppercase; border-color: #3498DB;">
         </div>
 
         <label class="subtitulo">Clave *</label><br/>
         <div class="input-group mx-auto">
-          <input type="password" id="uspass" name="uspass" class="form-control" maxlength="150" style="text-transform: uppercase; border-color: #3498DB">
+          <input type="password" id="uspass" name="uspass" class="form-control" maxlength="150" autocomplete="off" style="text-transform: uppercase; border-color: #3498DB">
         </div>
 
         <div class="form-group col-md-12">
-          <div class="float-left" style="color:black">* Datos obligatorios</div>
-          <button class="btn btn-responsive float-right" type="submit" id="botonInsertar" title="Insertar">Insertar</button><br>
+          <button class="btn btn-responsive float-right" type="submit" id="botonIngresar" title="Ingresar">Ingresar</button><br>
+          <div class="float-left" style="color:red">* Datos obligatorios</div>
+          <a class="botonVolver" href="../pagina/index.php">Volver</a>
         </div>
     </form><br><br>
 </div>
-</div>
 </body>
 </html>
+<?php
+}
+else{ ?>
+      <meta http-equiv="refresh" content="0;url=../principal/home.php" />
+<?php
+}
+?>
+
 
 <script type="text/javascript">
-
-$('#botonInsertar').click(function(evento){
-    pregunta = '¿Desea iniciar sesion?';
+$('#botonIngresar').click(function(evento){
+    pregunta = '¿Desea iniciar sesión?';
     evento.preventDefault();
     if(validarFormulario()){
-        Swal.fire({
+        /*Swal.fire({
             title: pregunta,
-            width:'600px',
+            width:'500px',
             showCancelButton: true,
             confirmButtonText: 'Aceptar',
             confirmButtonColor: '#3498DB',
@@ -58,7 +68,7 @@ $('#botonInsertar').click(function(evento){
             cancelButtonColor: 'red',
             allowOutsideClick: false,
         }).then((result) => {
-            if (result.value){
+            if (result.value){*/
               var password = document.getElementById("uspass").value;
               var hash = hex_md5(password).toString();
               document.getElementById("uspass").value = hash;
@@ -72,7 +82,8 @@ $('#botonInsertar').click(function(evento){
                     success: function(data){
                         var jsonData = JSON.parse(data);
                         if(jsonData.salida == 0){
-                            return mensajeExito(jsonData.mensaje1, jsonData.mensaje2);
+                            //return mensajeExito(jsonData.mensaje1, jsonData.mensaje2);
+                            return mensajeExito2(jsonData.mensaje);
                         }
                         else{
                          return mensajeError(jsonData.mensaje1, jsonData.mensaje2);
@@ -81,8 +92,8 @@ $('#botonInsertar').click(function(evento){
                 });
                 return false;
             }
-        });
-    } 
+        //});
+    //} 
 });
 
 
@@ -107,7 +118,7 @@ function validarFormulario(){
       title: $mensaje1,
       text: $mensaje2,
       allowOutsideClick: false,
-      width:'600px',
+      width:'500px',
       imageWidth: '160px',
     }).then(function(){
         document.getElementById("formularioSesion").reset();
@@ -117,14 +128,28 @@ function validarFormulario(){
 
   function mensajeExito($mensaje1, $mensaje2){
     Swal.fire({
-      type: 'success',
+      //type: 'success',
       title: $mensaje1,
       text: $mensaje2,
+      confirmButtonColor: '#3498DB', 
+      width:'500px',
+      allowOutsideClick: false,
+    }).then(function(){
+        //document.getElementById("formularioSesion").reset();
+        window.location.replace("../principal/home.php");
+    });
+    return false;
+  }
+
+  function mensajeExito2($mensaje1){
+    Swal.fire({
+      //type: 'success',
+      title: $mensaje1,
       confirmButtonColor: '#3498DB', 
       width:'600px',
       allowOutsideClick: false,
     }).then(function(){
-        document.getElementById("formularioSesion").reset();
+        //document.getElementById("formularioSesion").reset();
         window.location.replace("../principal/home.php");
     });
     return false;
@@ -135,7 +160,7 @@ function validarFormulario(){
 
 <style type="text/css">
 .input-group { 
-  width: 25%;
+  width: 22%;
   margin-bottom: 15px;
 }
 </style>

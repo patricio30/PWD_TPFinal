@@ -62,12 +62,12 @@ $listaRoles = $objAbmRol->buscar(null);
         </div>
 
         <div class="form-group col-md-12">
-          <div class="float-left" style="color:black">* Datos obligatorios</div>
+          
           <button class="btn btn-responsive float-right" type="submit" id="botonInsertar" title="Insertar">Insertar</button><br>
-          <a href="index.php">Volver</a>
+          <div class="float-left" style="color:red">* Datos obligatorios</div>
+          <a class="botonVolver" href="index.php">Volver</a>
         </div>
     </form><br><br>
-</div>
 </div>
 </body>
 </html>
@@ -205,7 +205,7 @@ function validarFormulario(){
 
 <style type="text/css">
 .input-group { 
-  width: 35%;
+  width: 30%;
   margin-bottom: 15px;
 }
 </style>

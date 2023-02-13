@@ -13,7 +13,7 @@ if(count($usuario)> 0){ //existe el nombre de usuario ingresado
 		$objTrans = new Sesion(); //Crea la sesion y le pasa los valores 
         $resp = $objTrans->iniciar(strtoupper($datos['usnombre']),$datos['uspass']);
         if($resp) {
-            echo json_encode(array('mensaje1' => 'Exito', 'mensaje2' => 'Bienvenido al sistema', 'salida' => '0'));
+            echo json_encode(array('mensaje' => '<p><img src="../img/logo.png" width:"50px;"><br><span style="color:#3498DB; font-size: 32px; font-family: Georgia, cursive;">Bienvenido al sistema</span><br><span style="color:#616161; font-size: 22px; font-family: Georgia, cursive;">Ya puede comenzar a utilizarlo</span></p>', 'salida' => '0'));
         } else {
             echo json_encode(array('mensaje1' => 'Error', 'mensaje2' => 'Error, vuelva a intentarlo', 'salida' => '0'));
         }

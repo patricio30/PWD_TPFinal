@@ -1,6 +1,7 @@
 <?php
-include_once "../../configuracion.php";
 include_once("../estructura/cabecera.php");
+include_once '../../configuracion.php';
+
 if($resp){
   $nombreUsuario = $_SESSION['usnombre'];
 
@@ -11,26 +12,11 @@ if($resp){
 //Verifica si tiene acceso este rol
 $link = $_SERVER['REQUEST_URI'];
 if($objTrans->tieneAcceso($objMenus, $link)){
-
 ?>
+  
+<div class="container" align="center" id="mycontainer"><br>
+  <div><span class="titulo2">MI PERFIL</span></div><br>
 
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <title><?php echo "Mi perfil"?></title>
-  <link rel="icon" type="image/png" href="../img/logo.ico"/>
-  <link rel="stylesheet" type="text/css" href="../css/estilos.css">
-  <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
-  <script type="text/javascript" src="../js/jquery-3.5.1.js"></script>
-  <script type="text/javascript" src="../js/bootstrap.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="../sweetalert/sweetalert2.min.css">
-  <script type="text/javascript" src="../sweetalert/sweetalert2.min.js" ></script>
-</head>
-
-<body class="fondo"><br><br>
-<div class="container" align="center">
-
-    <span class="titulo2"><?php echo "MI PERFIL" ?></span><br><br>
     <form method="post" id="formularioProducto" enctype="multipart/form-data">
 
         <input id="accion" name ="accion" value="<?php echo "editarPerfil" ?>" type="hidden">
@@ -52,28 +38,26 @@ if($objTrans->tieneAcceso($objMenus, $link)){
         </div>
 
         <div class="form-group col-md-12">
-          <div class="float-left" style="color:black">* Datos obligatorios</div>
           <button class="btn btn-responsive float-right" type="submit" id="botonActualizar" title="Actualizar">Actualizar</button><br>
+          <div class="float-left" style="color:red">* Datos obligatorios</div>
         </div>
     </form><br><br>
 </div>
-</div>
-</body>
-</html>
 <?php
   }else{ ?>
-      <br>
-      <div style="text-align: center;"><span style="color:#3498DB;  font-size: 40px;"><?php echo "No tiene permisos";?></span></div>
-      <div style="text-align: center;"><span style="color:#3498DB;  font-size: 25px;"><?php echo "Sera redirigido";?></span></div>
-      <meta http-equiv="refresh" content="2;url=../principal/home.php" />
+      <!--br>
+      <div style="text-align: center;"><span style="color:#3498DB;  font-size: 40px;"><?php //echo "No tiene permisos";?></span></div>
+      <div style="text-align: center;"><span style="color:#3498DB;  font-size: 25px;"><?php //echo "Sera redirigido";?></span></div>
+      <meta http-equiv="refresh" content="2;url=../principal/home.php"/-->
+      <meta http-equiv="refresh" content="0;url=../principal/home.php"/>
  <?php   
     }
-  }
-  else{ 
+}
+else{ 
   ?>
-    <meta http-equiv="refresh" content="0;url=../pagina/index.php" />
+  <meta http-equiv="refresh" content="0;url=../pagina/index.php" />
  <?php   
-    }
+}
 ?>
 
 
@@ -86,7 +70,7 @@ $('#botonActualizar').click(function(evento){
     if(validarFormulario()){
         Swal.fire({
             title: pregunta,
-            width:'600px',
+            width:'550px',
             showCancelButton: true,
             confirmButtonText: 'Aceptar',
             confirmButtonColor: '#3498DB',
@@ -149,7 +133,7 @@ function validarFormulario(){
       title: $mensaje1,
       text: $mensaje2,
       allowOutsideClick: false,
-      width:'600px',
+      width:'550px',
       imageWidth: '160px',
     });
     return false;
@@ -161,7 +145,7 @@ function validarFormulario(){
       title: $mensaje1,
       text: $mensaje2,
       confirmButtonColor: '#3498DB', 
-      width:'600px',
+      width:'550px',
       allowOutsideClick: false,
     }).then(function(){
         window.location.replace("../principal/home.php");
@@ -173,7 +157,7 @@ function validarFormulario(){
 
 <style type="text/css">
 .input-group { 
-  width: 35%;
+  width: 25%;
   margin-bottom: 15px;
 }
 </style>

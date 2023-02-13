@@ -1,3 +1,37 @@
+/* iniciarSesion*/
+#botonIngresar{
+  color: white;
+  background-color: #3498DB;
+  border: 2px solid;
+  border-radius: 10px;
+  height: 40px;
+  width: 135px;
+  font-size: 18px;
+  font-family: Georgia;
+}
+#botonIngresar:hover{
+   color: #3498DB;
+   background-color:white;
+}
+#mycontainer { max-width: 1300px !important; }
+
+
+/* registrarse*/
+#botonRegistrarse{
+  color: white;
+  background-color: #3498DB;
+  border: 2px solid;
+  border-radius: 10px;
+  height: 40px;
+  width: 135px;
+  font-size: 18px;
+  font-family: Georgia;
+}
+#botonRegistrarse:hover{
+   color: #3498DB;
+   background-color:white;
+}
+
 
 /* cliente/index.php */
 .fondo{
@@ -9,9 +43,10 @@
 }
 .titulo2{
   color: #3498DB;
-  font-size: 28px;
+  font-size: 38px;
   margin-bottom: 10px;
-  font-family: Verdana;
+  /*font-family: Verdana;*/
+  font-family: Georgia;
 }
 
 #columna{
@@ -111,14 +146,29 @@
   border: 2px solid;
   border-radius: 10px;
   height: 45px;
-  width: 150px;
-  font-size: 15px;
+  width: 135px;
+  font-size: 18px;
+  font-family: Georgia;
 }
 #botonInsertar:hover{
    color: #3498DB;
    background-color:white;
 }
 
+#botonAgregar{
+  color: white;
+  background-color: #3498DB;
+  border: 2px solid;
+  border-radius: 10px;
+  height: 40px;
+  width: 140px;
+  font-size: 18px;
+  font-family: Georgia;
+}
+#botonAgregar:hover{
+   color: #3498DB;
+   background-color:white;
+}
 
 
 /* cliente/micarrito.php */
@@ -224,3 +274,18 @@
 
 /* usuario/index.php */
 /* usuario/nuevoUsuario.php */
+
+
+
+
+.subtitulo2{
+  color: #3498DB;
+  font-size: 22px;
+}
+
+
+
+.botonVolver{
+  text-decoration: none;
+  color: #3498DB;
+}

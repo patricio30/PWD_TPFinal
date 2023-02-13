@@ -1,6 +1,9 @@
 <?php
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
 class AbmCompraEstado{
-    
+
     public function abm($datos){
         $resp = false;
         if($datos['accion']=='editar'){
@@ -173,6 +176,7 @@ class AbmCompraEstado{
         //$objCompraEstado = new AbmCompraEstado();
         $array = $this->buscar($arrayAsociativo);
         //print_r($array);
+        date_default_timezone_set('America/Argentina/Buenos_Aires');
         $fechaActual = date('Y-m-d H:i:s', time()); //Fecha actual
         $array[0]->setCeFechaFin($fechaActual);
         $array[0]->modificar();
@@ -180,6 +184,7 @@ class AbmCompraEstado{
     }
 
     public function nuevaCompraEstado($idcompra){
+        date_default_timezone_set('America/Argentina/Buenos_Aires');
         $fechaActual = date('Y-m-d H:i:s', time()); //Fecha actual
         $arrayAsociativo = ["idcompra" => $idcompra, "idcompraestadotipo" => 2, "cefechaini" => $fechaActual, "cefechafin" => '0000-00-00 00:00:00'];
         $salida = $this->alta($arrayAsociativo);
@@ -207,6 +212,7 @@ class AbmCompraEstado{
     
         //Actualiza la compraestado (la fechafin)
         $obj = $this->ultimaCompraEstadoCompra($idcompra);
+        date_default_timezone_set('America/Argentina/Buenos_Aires');
         $fechaActual = date('Y-m-d H:i:s', time());
         $obj[0]->setCeFechaFin($fechaActual); //Le seteo la fecha actual
         $obj[0]->modificar();
@@ -234,6 +240,7 @@ class AbmCompraEstado{
     
         //Actualiza la compraestado (la fechafin)
         $obj = $this->ultimaCompraEstadoCompra($idcompra);
+        date_default_timezone_set('America/Argentina/Buenos_Aires');
         $fechaActual = date('Y-m-d H:i:s', time());
         $obj[0]->setCeFechaFin($fechaActual); //Le seteo la fecha actual
         $obj[0]->modificar();
@@ -252,6 +259,7 @@ class AbmCompraEstado{
     
         //Actualiza la compraestado (la fechafin)
         $obj = $this->ultimaCompraEstadoCompra($idcompra);
+        date_default_timezone_set('America/Argentina/Buenos_Aires');
         $fechaActual = date('Y-m-d H:i:s', time());
         $obj[0]->setCeFechaFin($fechaActual); //Le seteo la fecha actual
         $obj[0]->modificar();
@@ -271,6 +279,7 @@ class AbmCompraEstado{
     
         //Actualiza la compraestado (la fechafin)
         $obj = $this->ultimaCompraEstadoCompra($idcompra);
+        date_default_timezone_set('America/Argentina/Buenos_Aires');
         $fechaActual = date('Y-m-d H:i:s', time());
         $obj[0]->setCeFechaFin($fechaActual); //Le seteo la fecha actual
         $obj[0]->modificar();
@@ -280,6 +289,61 @@ class AbmCompraEstado{
         $salida = $this->alta($arrayAsociativo);
 
         return $salida;
+    }
+
+
+     //Se invoca cuando se selecciona finalizar la compra desde gestion de compras
+    //Actualiza la compraestado (la fechafin) e inserta una nueva
+    public function finalizarCompra($idcompra){
+    
+        //Actualiza la compraestado (la fechafin)
+        $obj = $this->ultimaCompraEstadoCompra($idcompra);
+        date_default_timezone_set('America/Argentina/Buenos_Aires');
+        $fechaActual = date('Y-m-d H:i:s', time());
+        $obj[0]->setCeFechaFin($fechaActual); //Le seteo la fecha actual
+        $obj[0]->modificar();
+
+        //Doy de alta una nueva compraestado con estado aceptada
+        $arrayAsociativo = ["idcompra" => $idcompra, "idcompraestadotipo" => 6, "cefechaini" => $fechaActual, "cefechafin" => '0000-00-00 00:00:00'];
+        $salida = $this->alta($arrayAsociativo);
+
+        return $salida;
+    }
+
+
+
+    public function enviarMailCompra($idcompra, $mailUsuario, $estado){
+        require 'PHPMailer/src/Exception.php';
+        require 'PHPMailer/src/PHPMailer.php';
+        require 'PHPMailer/src/SMTP.php';
+
+        date_default_timezone_set('America/Argentina/Buenos_Aires');
+        $fechaActual = date('d/m/y h:i:s');
+        $mail = new PHPMailer(true);
+        try {
+            //Para enviar mail desde localhost
+            $mail->SMTPOptions = array('ssl' => array('verify_peer' => false,'verify_peer_name' => false,'allow_self_signed' => true));
+            $mail->SMTPDebug = 0;                   
+            $mail->isSMTP();                                            
+            $mail->Host = 'smtp.gmail.com';                    
+            $mail->SMTPAuth = true;                                   
+            $mail->Username = 'patohrg@gmail.com';                   
+            $mail->Password = 'uibrzglpkpqqvnlf'; //Contraseña de aplicacion en gmail                          
+            //$mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->SMTPSecure = 'tls';
+            $mail->Port = 587;
+            $mail->setFrom('patohrg@gmail.com', 'Patricio RG');
+            $mail->addAddress($mailUsuario);
+            $mail->isHTML(true);                                
+            $mail->Subject = 'Notificacion';
+            $mail->Body = "Su compra con número de id ".$idcompra." paso a estado ".$estado." con fecha y hora: ".$fechaActual;
+            $mail->send();
+            $salida = true;
+        }
+        catch (Exception $e) {
+         $salida = false;
+        }
+    return $salida;
     }
 
 }

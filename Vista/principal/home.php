@@ -1,23 +1,23 @@
 <?php
 include_once("../estructura/cabecera.php");
+if($resp){
 ?>
 
 <!DOCTYPE html>
 <html lang="es">
-<head>
-  <title><?php echo "Home"?></title>
-  <link rel="icon" type="image/png" href="../img/logo.ico"/>
-  <link rel="stylesheet" type="text/css" href="../css/estilos.css">
-  <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
-  <script type="text/javascript" src="../js/jquery-3.5.1.js"></script>
-  <script type="text/javascript" src="../js/bootstrap.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="../sweetalert/sweetalert2.min.css">
-  <script type="text/javascript" src="../sweetalert/sweetalert2.min.js" ></script>
-</head>
-
-<body class="fondo"><br><br>
-    <div class="container" align="center">
-    </div>
-</div>
+<body>
+  <div class="container" id="mycontainer"><br>
+      <img src="../pagina/assets/fondo6.jpg" class="img-fluid">
+    </div><br>
+<?php 
+}
+else{
+  header('Location: ../index.php');
+}
+?>
 </body>
 </html>
+
+<style type="text/css">
+  #mycontainer { max-width: 1300px !important; }
+</style>

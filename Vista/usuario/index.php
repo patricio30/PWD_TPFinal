@@ -6,27 +6,14 @@ if($resp){
 $objAbmUsuario = new AbmUsuario();
 $listaUsuarios = $objAbmUsuario->buscar(null);
 
-
 //Verifica si tiene acceso este rol
 $link = $_SERVER['REQUEST_URI'];
 if($objTrans->tieneAcceso($objMenus, $link)){
-
-
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//ES" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html>
-  <head>
-  <title>Listar usuarios</title>
-  <link rel="icon" type="image/png" href="../img/logo.ico"/>
-  <link rel="stylesheet" type="text/css" href="../css/estilos.css">
-  <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
-  <link rel="stylesheet" type="text/css" href="../css/dataTables.bootstrap5.min.css">
-  <link rel="stylesheet" type="text/css" href="../css/sweetalert/sweetalert2.min.css">
-  </head>
-<body class="fondo"><br><br>
+
   
-  <div class="container">
-    <div class="container" align="center"><span class="titulo2">USUARIOS</span></div><br>
+  <div class="container" id="mycontainer"><br>
+    <div align="center"><span class="titulo2">USUARIOS</span></div><br>
     <!--div style="text-align: right;"><button id="botonAltaProducto" onclick="" title="Alta de producto">Alta</button></div-->
     <!--a class="btn btn-success" id="botonAltaProducto" role="button" href="nuevoUsuario.php?accion=nuevo&id=-1">Nuevo</a><br-->
 
@@ -43,7 +30,10 @@ if($objTrans->tieneAcceso($objMenus, $link)){
         <tbody>
         <?php foreach($listaUsuarios as $objAbmUsuario){ 
                 
-              $salida = "DETALLES DEL USUARIO".'\n\n'."ID: ".$objAbmUsuario->getIdusuario(). '\n'." NOMBRE: ".$objAbmUsuario->getUsnombre(). '\n'."MAIL: ".$objAbmUsuario->getUsmail(). '\n';
+              //$salida = "Detalles del Usuario".'\n\n'."ID: ".$objAbmUsuario->getIdusuario(). '\n'." Nombre: ".$objAbmUsuario->getUsnombre(). '\n'."Mail: ".$objAbmUsuario->getUsmail(). '\n';
+
+              $mensaje1 = "Detalles de Usuario";
+              $mensaje2 = "Id: ".$objAbmUsuario->getIdusuario().'<br>'." Nombre: ".$objAbmUsuario->getUsnombre(). '<br>'."Mail: ".$objAbmUsuario->getUsmail(). '<br>';
                 
               $editar = '<a type="button" href="editarUsuario.php?idusuario='.$objAbmUsuario->getIdusuario().'"><button id="botonEditar">Editar</button></a>';
 
@@ -60,17 +50,13 @@ if($objTrans->tieneAcceso($objMenus, $link)){
                 <td id="fila"><?php echo $objAbmUsuario->getUsmail();?></td>
                 <td id="fila"><?php echo $estado;?></td>
                 <td id="fila" style="text-align: center;">
-                  <button id="botonDetalles" onclick="verDatos('<?php echo $salida ?>')">Detalles</button><?php echo $editar; ?></td>
+                  <!--button id="botonDetalles" onclick="verDatos('<?php //echo $salida ?>')">Detalles</button><?php //echo $editar; ?></td-->
+                  <button id="botonDetalles" onclick="verDatos('<?php echo $mensaje1 ?>', '<?php echo $mensaje2 ?>')">Detalles</button><?php echo $editar; ?></td>
               </tr>
         <?php } ?>
         </tbody>
     </table>
   </div><br><br>
-    
-    <script type="text/javascript" src="../sweetalert/sweetalert2.min.js"></script>
-    <script type="text/javascript" src="../js/jquery-3.5.1.js"></script>
-    <script type="text/javascript" src="../js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript"src="../js/dataTables.bootstrap5.min.js"></script> 
   </body>
 </html>
 <?php
@@ -115,10 +101,22 @@ else{ ?>
 
   });
 
-  function verDatos($datos){
+  /*function verDatos($datos){
     swal.fire({
-      title: '<span style="color:black; font-size: 16px; font-family: Arial;">'+$datos+'</span>', 
+      title: '<span style="color:black; font-size: 16px; font-family: Arial;">'+$datos+'</span>',
       width:'650px',
+      imageWidth: 300,
+      imageHeight: 150,
+      allowOutsideClick: false,
+      confirmButtonColor: '#3498DB',
+    });
+  }*/
+
+  function verDatos($mensaje1, $mensaje2){
+    swal.fire({
+      title: '<span style="color:black; font-size: 22px; font-family: Arial;">'+$mensaje1+'</span>',
+      html: '<span style="color:black;">'+$mensaje2+'</span>',
+      width:'550px',
       imageWidth: 300,
       imageHeight: 150,
       allowOutsideClick: false,

@@ -4,10 +4,10 @@ $datos = data_submitted();
 
 $resp = false;
 $objTrans = new AbmUsuario();
+date_default_timezone_set('America/Argentina/Buenos_Aires');
 
 if($datos['accion']=="editarPerfil"){
     $resp = $objTrans->abm($datos);
-    
     if($resp){
     	echo json_encode(array('mensaje1' => 'Exito', 'mensaje2' => 'Datos actualizados', 'salida' => '0'));
     }else{
@@ -30,7 +30,7 @@ if($datos['accion']=="nuevo"){
 			echo json_encode(array('mensaje1' => 'Error', 'mensaje2' => 'No se pudo cargar item de la compra', 'salida' => '1'));
 		}else{
 			if($objProducto->actualizarStock($datos['idproducto'], $datos['cantidad'])){
-				echo json_encode(array('mensaje1' => 'Exito', 'mensaje2' => 'Agregado al carrito', 'salida' => '0'));
+				echo json_encode(array('mensaje1' => 'Éxito', 'mensaje2' => 'Agregado al carrito', 'salida' => '0'));
 			}
 			else{
 				echo json_encode(array('mensaje1' => 'Error', 'mensaje2' => 'No se pudo actualizar stock', 'salida' => '1'));
@@ -60,7 +60,7 @@ if($datos['accion']=="nuevo"){
 		    			echo json_encode(array('mensaje1' => 'Error', 'mensaje2' => 'No se pudo cargar estado de la compra', 'salida' => '1'));
 		    		}
 		    		else{
-		    			echo json_encode(array('mensaje1' => 'Exito', 'mensaje2' => 'Agregado al carrito', 'salida' => '0'));
+		    			echo json_encode(array('mensaje1' => 'Éxito', 'mensaje2' => 'Agregado al carrito', 'salida' => '0'));
 		    		}
 		    	}
 		    	else{
@@ -84,7 +84,6 @@ if($datos['accion']=="eliminar"){
 	$cantidad = $datos['cantidad'];
 	$idproducto = $datos['valor'];
 
-
 	//Es el unico producto del carrito
 	//Elimino compraitem - actualizo compraestado - inserto compraestado
 	if($objCompraItem->esUltimaCompraItemss($idcompra)){ 
@@ -98,7 +97,7 @@ if($datos['accion']=="eliminar"){
 
 		if(($salida)&&($bajaCompraItem)){
 			if($objProducto->actualizarStockEliminado($idproducto, $cantidad)){ //Actualizo stock
-				echo json_encode(array('mensaje1'=>'Exito', 'mensaje2'=>"Producto eliminado", 'salida'=>'0'));
+				echo json_encode(array('mensaje1'=>'Éxito', 'mensaje2'=>"Producto eliminado", 'salida'=>'0'));
 			}
 			else{
 				echo json_encode(array('mensaje1'=>'Error', 'mensaje2'=>"No pudo actualizarse stock", 'salida'=>'1'));
@@ -128,37 +127,44 @@ if($datos['accion']=="eliminar"){
 //Cuando el cliente cancela la compra del carrito***
 if($datos['accion']=="cancelar"){
 	$idcompra = $datos['idcompra'];
+	$mail = $datos['mail'];
+	$estado = "CANCELADA";
 	$objCompraEstado = new AbmCompraEstado();
 	$objCompraItem = new AbmCompraitem();
 	
 	//Elimina las comprasitems y actualiza el stock
 	$eliminar = $objCompraItem->eliminarCompras($idcompra);
 	if($eliminar){
-		//Actualiza la compraestado y crea una nueva
+		//Actualiza la compraestado y crea una nueva con estado cancelada
 		$salida = $objCompraEstado->cancelarCompraCarrito($idcompra);
-		if($salida){
-			echo json_encode(array('mensaje1' => 'Exito', 'mensaje2' => "Compra cancelada", 'salida' => '0'));
+		if($objCompraEstado->enviarMailCompra($idcompra, $mail, $estado)){
+			echo json_encode(array('mensaje1' => 'Compra cancelada', 'mensaje2' => "Revise su casilla de mail", 'salida' => '0'));
 		}
 		else{
-			echo json_encode(array('mensaje1' => 'Exito', 'mensaje2' => "No se pudo cancelar la compra", 'salida' => '1'));
+			echo json_encode(array('mensaje1' => 'Compra cancelada', 'mensaje2' => "No se envio notificación", 'salida' => '0'));
 		}
 	}
 	else{
 		echo json_encode(array('mensaje1' => 'Error', 'mensaje2' => "No se pudo cancelar la compra", 'salida' => '1'));
 	}
-
-	
 }
 
 //Cuando desde Mi carrito selecciona Comprar. La compra pasa de estado borrador a estado iniciada***
 if($datos['accion']=="comprar"){
 	$idcompra = $datos['idcompra'];
+	$mail = $datos['mail'];
+	$estado = "INICIADA";
 	$objCompraEstado = new AbmCompraEstado();
 
 	if($objCompraEstado->aceptarCompraCarrito($idcompra)){
-		echo json_encode(array('mensaje1' => 'Exito', 'mensaje2' => "Compra realizada", 'salida' => '0'));
+		if($objCompraEstado->enviarMailCompra($idcompra, $mail, $estado)){
+			echo json_encode(array('mensaje1' => 'Compra realizada', 'mensaje2' => "Revise su casilla de mail", 'salida' => '0'));
+		}
+		else{
+			echo json_encode(array('mensaje1' => 'Compra realizada', 'mensaje2' => "No se envio notificación", 'salida' => '0'));
+		}
 	}else{
-		echo json_encode(array('mensaje1' => 'Exito', 'mensaje2' => "No se pudo realizar la compra", 'salida' => '1'));
+		echo json_encode(array('mensaje1' => 'Error', 'mensaje2' => "No se pudo realizar la compra", 'salida' => '1'));
 	}
 }
 

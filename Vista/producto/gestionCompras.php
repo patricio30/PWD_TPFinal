@@ -12,20 +12,9 @@ $link = $_SERVER['REQUEST_URI'];
 if($objTrans->tieneAcceso($objMenus, $link)){
 
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//ES" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html>
-  <head>
-  <title>Gestionar compras</title>
-  <link rel="icon" type="image/png" href="../img/logo.ico"/>
-  <link rel="stylesheet" type="text/css" href="../css/estilos.css">
-  <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
-  <link rel="stylesheet" type="text/css" href="../css/dataTables.bootstrap5.min.css">
-  <link rel="stylesheet" type="text/css" href="../sweetalert/sweetalert2.min.css">
-  </head>
-<body class="fondo"><br><br>
-  
-  <div class="container">
-    <div class="container" align="center"><span class="titulo2">GESTIÓN DE COMPRAS</span></div><br>
+
+  <div class="container" id="mycontainer"><br>
+    <div align="center"><span class="titulo2">GESTIÓN DE COMPRAS</span></div><br>
 
     <table id="ejemplo" class="table table-striped table-bordered" style="width:100%">
         <thead><tr>
@@ -39,7 +28,10 @@ if($objTrans->tieneAcceso($objMenus, $link)){
         <?php 
           if($lista!=null){
             foreach($lista as $objAbm){ 
-                if($objAbm->getCompraEstadoTipo()->getCetDescripcion()!="cancelada"){
+                if(($objAbm->getCompraEstadoTipo()->getCetDescripcion()!="cancelada")&&($objAbm->getCompraEstadoTipo()->getCetDescripcion()!="borrador")){
+
+                  //Obtengo el mail del cliente
+                  $mailUsuario = $objAbm->getCompra()->getObjusuario()->getUsmail();
            ?>
               <tr>
                 <td id="fila"><?php echo $objAbm->getCompra()->getIdcompra();?></td>
@@ -49,18 +41,20 @@ if($objTrans->tieneAcceso($objMenus, $link)){
                 <td id="fila" style="text-align: center;">
 
                 <?php if($objAbm->getCompraEstadoTipo()->getCetDescripcion()=="iniciada"){?>
-                  <button id="boton" onclick="aceptar('<?php echo $objAbm->getCompra()->getIdcompra(); ?>', '<?php echo "aceptar" ?>')">Aceptar</button>
-                  <button id="boton" onclick="cancelar('<?php echo $objAbm->getCompra()->getIdcompra(); ?>', '<?php echo "cancelar" ?>')">Cancelar</button>
+                  <button id="botonAceptarG" title="Aceptar compra" onclick="aceptar('<?php echo $objAbm->getCompra()->getIdcompra(); ?>', '<?php echo "aceptar" ?>', '<?php echo $mailUsuario ?>')">Aceptar</button>
+                  <button id="botonCancelarG" title="Cancelar compra" onclick="cancelar('<?php echo $objAbm->getCompra()->getIdcompra(); ?>', '<?php echo "cancelar" ?>', '<?php echo $mailUsuario ?>')">Cancelar</button>
                 <?php } ?>
 
                 <?php if($objAbm->getCompraEstadoTipo()->getCetDescripcion()=="aceptada"){?>
-                  <button id="boton" onclick="enviar('<?php echo $objAbm->getCompra()->getIdcompra(); ?>', '<?php echo "enviar" ?>')">Enviar</button>
-                  <button id="boton" onclick="cancelar('<?php echo $objAbm->getCompra()->getIdcompra(); ?>', '<?php echo "cancelar" ?>')">Cancelar</button>
+                  <button id="botonAceptarG" title="Enviar compra" onclick="enviar('<?php echo $objAbm->getCompra()->getIdcompra(); ?>', '<?php echo "enviar" ?>', '<?php echo $mailUsuario ?>')">Enviar</button>
+                  <button id="botonCancelarG" title="Cancelar compra" onclick="cancelar('<?php echo $objAbm->getCompra()->getIdcompra(); ?>', '<?php echo "cancelar" ?>', '<?php echo $mailUsuario ?>')">Cancelar</button>
                 <?php } ?>
 
                 <?php if($objAbm->getCompraEstadoTipo()->getCetDescripcion()=="enviada"){?>
-                  <button id="boton" onclick="cancelar('<?php echo $objAbm->getCompra()->getIdcompra(); ?>', '<?php echo "cancelar" ?>')">Cancelar</button>
+                  <button id="botonAceptarG" title="Finalizar compra" onclick="finalizar('<?php echo $objAbm->getCompra()->getIdcompra(); ?>', '<?php echo "finalizar" ?>', '<?php echo $mailUsuario ?>')">Finalizar</button>
+                  <button id="botonCancelarG" title="Cancelar compra" onclick="cancelar('<?php echo $objAbm->getCompra()->getIdcompra(); ?>', '<?php echo "cancelar" ?>', '<?php echo $mailUsuario ?>')">Cancelar</button>
                 <?php } ?>
+
 
                 </td>
               </tr>
@@ -70,12 +64,10 @@ if($objTrans->tieneAcceso($objMenus, $link)){
           ?>
         </tbody>
     </table>
-  </div><br><br>
-    
-    <script type="text/javascript" src="../sweetalert/sweetalert2.min.js"></script>
-    <script type="text/javascript" src="../js/jquery-3.5.1.js"></script>
-    <script type="text/javascript" src="../js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript"src="../js/dataTables.bootstrap5.min.js"></script> 
+
+    <div id="loader" style="display:none"></div>
+
+  </div><br><br> 
   </body>
 </html>
 
@@ -120,23 +112,11 @@ else{ ?>
 
   });
 
-  function verDatos($datos, $foto){
-    swal.fire({
-      title: '<span style="color:black; font-size: 16px; font-family: Arial;">'+$datos+'</span>', 
-      width:'650px',
-      imageUrl: $foto,
-      imageWidth: 300,
-      imageHeight: 150,
-      allowOutsideClick: false,
-      confirmButtonColor: '#3498DB',
-    });
-  }
-
-function cancelar(idcompra, accion){
-  var datos = {"idcompra":idcompra, "accion":accion};
+function cancelar(idcompra, accion, mail){
+  var datos = {"idcompra":idcompra, "accion":accion, "mail":mail};
   Swal.fire({
     title: '¿Desea cancelar la compra?',
-    width:'600px',
+    width:'550px',
     showCancelButton: true,
     confirmButtonText: 'Aceptar',
     confirmButtonColor: '#3498DB',
@@ -149,7 +129,11 @@ function cancelar(idcompra, accion){
           url: 'accion.php',
           type:'POST',
           data: datos,
+          beforeSend: function() {
+            $("#loader").css('display','block');
+          },
           success: function(data){
+          $("#loader").css('display','none');
             var jsonData = JSON.parse(data);
               if(jsonData.salida == 0){
                 return mensajeExito(jsonData.mensaje1, jsonData.mensaje2);
@@ -164,11 +148,11 @@ function cancelar(idcompra, accion){
     });
 }
 
-function aceptar(idcompra, accion){
-  var datos = {"idcompra":idcompra, "accion":accion};
+function aceptar(idcompra, accion, mail){
+  var datos = {"idcompra":idcompra, "accion":accion, "mail":mail};
   Swal.fire({
     title: '¿Desea aceptar la compra?',
-    width:'600px',
+    width:'550px',
     showCancelButton: true,
     confirmButtonText: 'Aceptar',
     confirmButtonColor: '#3498DB',
@@ -181,7 +165,11 @@ function aceptar(idcompra, accion){
           url: 'accion.php',
           type:'POST',
           data: datos,
+          beforeSend: function() {
+            $("#loader").css('display','block');
+          },
           success: function(data){
+          $("#loader").css('display','none');
             var jsonData = JSON.parse(data);
               if(jsonData.salida == 0){
                 return mensajeExito(jsonData.mensaje1, jsonData.mensaje2);
@@ -196,11 +184,11 @@ function aceptar(idcompra, accion){
     });
 }
 
-function enviar(idcompra, accion){
-  var datos = {"idcompra":idcompra, "accion":accion};
+function enviar(idcompra, accion, mail){
+  var datos = {"idcompra":idcompra, "accion":accion, "mail":mail};
   Swal.fire({
     title: '¿Desea enviar la compra?',
-    width:'600px',
+    width:'550px',
     showCancelButton: true,
     confirmButtonText: 'Aceptar',
     confirmButtonColor: '#3498DB',
@@ -213,7 +201,47 @@ function enviar(idcompra, accion){
           url: 'accion.php',
           type:'POST',
           data: datos,
+          beforeSend: function() {
+            $("#loader").css('display','block');
+          },
           success: function(data){
+          $("#loader").css('display','none');
+            var jsonData = JSON.parse(data);
+              if(jsonData.salida == 0){
+                return mensajeExito(jsonData.mensaje1, jsonData.mensaje2);
+              }
+              else{
+                return mensajeError(jsonData.mensaje1, jsonData.mensaje2);
+              }
+            }
+        });
+        return false;
+      }
+    });
+}
+
+function finalizar(idcompra, accion, mail){
+  var datos = {"idcompra":idcompra, "accion":accion, "mail":mail};
+  Swal.fire({
+    title: '¿Desea finalizar la compra?',
+    width:'550px',
+    showCancelButton: true,
+    confirmButtonText: 'Aceptar',
+    confirmButtonColor: '#3498DB',
+    confirmButtonText: 'Aceptar',
+    cancelButtonColor: 'red',
+    allowOutsideClick: false,
+  }).then((result) => {
+    if (result.value){
+        $.ajax({
+          url: 'accion.php',
+          type:'POST',
+          data: datos,
+          beforeSend: function() {
+            $("#loader").css('display','block');
+          },
+          success: function(data){
+          $("#loader").css('display','none');
             var jsonData = JSON.parse(data);
               if(jsonData.salida == 0){
                 return mensajeExito(jsonData.mensaje1, jsonData.mensaje2);
@@ -253,3 +281,47 @@ function mensajeError($mensaje1, $mensaje2){
   }
 
 </script>
+
+
+<style type="text/css">
+#loader {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    background: url('../img/loader.gif') 50% 50% no-repeat rgb(249,249,249);
+    opacity: .8;
+}
+
+#botonCancelarG{
+  color: white;
+  background-color: red;
+  border: 2px solid;
+  border-radius: 10px;
+  height: 30px;
+  width: 95px;
+  font-size: 16px;
+  font-family: Georgia;
+}
+#botonCancelarG:hover{
+   color: red;
+   background-color:white;
+}
+
+#botonAceptarG{
+  color: white;
+  background-color: #058B32;
+  border: 2px solid;
+  border-radius: 10px;
+  height: 30px;
+  width: 95px;
+  font-size: 16px;
+  font-family: Georgia;
+}
+#botonAceptarG:hover{
+   color: #058B32;
+   background-color:white;
+}
+</style>

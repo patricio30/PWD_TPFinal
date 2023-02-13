@@ -1,7 +1,6 @@
 <?php
 include_once("../estructura/cabecera.php");
 include_once '../../configuracion.php';
-
 if($resp){
   $datos = data_submitted();
   $accion = $datos['accion']; //Obtengo el nombre de la accion (nuevo o editar)
@@ -21,23 +20,8 @@ if($resp){
     $titulo = "EDITAR PRODUCTO";
   }
 
-  ?>
-
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <title><?php echo $titulo?></title>
-  <link rel="icon" type="image/png" href="../img/logo.ico"/>
-  <link rel="stylesheet" type="text/css" href="../css/estilos.css">
-  <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
-  <script type="text/javascript" src="../js/jquery-3.5.1.js"></script>
-  <script type="text/javascript" src="../js/bootstrap.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="../sweetalert/sweetalert2.min.css">
-  <script type="text/javascript" src="../sweetalert/sweetalert2.min.js" ></script>
-</head>
-
-<body class="fondo"><br><br>
-<div class="container" align="center">
+?>
+<div class="container" align="center" id="mycontainer"><br>
 
     <span class="titulo2"><?php echo $titulo?></span><br><br>
 
@@ -74,6 +58,7 @@ if($resp){
         <label class="subtitulo">Estado</label><br/>
         <?php if($obj != null){
                 if($obj->getProestado() == "1"){ ?>
+                  
                   <div class="input-group mx-auto">
                     <input type="radio" name="proestado" id="1" checked="checked" value="1" style="margin-right: 10px; margin-left: 10px;"><label>Habilitado</label>
       
@@ -81,6 +66,7 @@ if($resp){
                   </div>
         <?php    
                 }else{?>
+                    
                     <div class="input-group mx-auto">
                       <input type="radio" name="proestado" id="1" value="1" style="margin-right: 10px; margin-left: 10px;"><label>Habilitado</label>
       
@@ -88,6 +74,7 @@ if($resp){
                     </div>
         <?php        }
               }else{ ?>
+                  
                   <div class="input-group mx-auto">
                     <input type="radio" name="proestado" id="1" checked="checked" value="1" style="margin-right: 10px; margin-left: 10px;"><label>Habilitado</label>
                     <input type="radio" name="proestado" id="0" value="0" style="margin-right: 10px; margin-left: 10px;"><label>Inhabilitado</label>
@@ -100,7 +87,7 @@ if($resp){
               $mensajeImagen = "Reemplazar Imagen";
               $imagenGuardada = "../img/".$obj->getPronombre().".jpg";
       ?>
-              <img id="imagenBorde" src="<?php echo $imagenGuardada ?>" width="400" height="250"><br><br>
+              <img id="imagenBorde" src="<?php echo $imagenGuardada ?>" width="450" height="250"><br><br>
       <?php
             }
             else{  $mensajeImagen = "Adjuntar Imagen";
@@ -113,16 +100,12 @@ if($resp){
         </div><br><br>
 
         <div class="form-group col-md-12">
-          <div class="float-left" style="color:black">* Datos obligatorios</div>
-          <button class="btn btn-responsive float-right" type="submit" id="botonInsertar" title="Insertar">Insertar</button><br>
-          <a href="index.php">Volver</a>
+          <button class="btn btn-responsive float-right" type="submit" id="botonInsertar" title="Insertar">Cargar</button><br>
+          <div class="float-left" style="color:red">* Datos obligatorios</div>
+          <a class="botonVolver" href="index.php">Volver</a>
         </div>
     </form><br><br>
 </div>
-</div>
-</body>
-</html>
-
 <?php
 }
 else{ ?>
@@ -146,7 +129,7 @@ $('#botonInsertar').click(function(evento){
     if(validarFormulario()){
         Swal.fire({
             title: pregunta,
-            width:'600px',
+            width:'550px',
             showCancelButton: true,
             confirmButtonText: 'Aceptar',
             confirmButtonColor: '#3498DB',
@@ -261,7 +244,7 @@ function validarFormulario(){
       title: $mensaje1,
       text: $mensaje2,
       allowOutsideClick: false,
-      width:'600px',
+      width:'550px',
       imageWidth: '160px',
     });
     return false;
@@ -273,7 +256,7 @@ function validarFormulario(){
       title: $mensaje1,
       text: $mensaje2,
       confirmButtonColor: '#3498DB', 
-      width:'600px',
+      width:'550px',
       allowOutsideClick: false,
     }).then(function(){window.location.replace("index.php");});
     return false;

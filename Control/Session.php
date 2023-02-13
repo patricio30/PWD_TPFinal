@@ -139,12 +139,13 @@ class Session{
 
 
     public function tieneAcceso($objMenus, $link){
-        $nuevoLink = substr_replace($link, "../", 0, 19);
+        $nuevoLink = substr_replace($link, "../", 0, 17);
         $salida=false;
         $contador = count($objMenus);
         $i=0;
         while(($i<$contador)&&(!$salida)){
             $linkAcceso = $objMenus[$i]->getMedescripcion();
+            //echo $linkAcceso."  -  ".$nuevoLink."<br>";
             if (strcmp($linkAcceso, $nuevoLink) === 0){
                 $salida=true;
             }

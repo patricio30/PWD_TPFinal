@@ -1,23 +1,10 @@
 <?php
 include_once("../estructura/cabecera.php");
-include_once '../../configuracion.php';
+include_once "../../configuracion.php";
 ?>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <title><?php echo "Registracion"?></title>
-  <link rel="icon" type="image/png" href="../img/logo.ico"/>
-  <link rel="stylesheet" type="text/css" href="../bootstrap.min.css">
-  <script type="text/javascript" src="../jquery-3.5.1.js"></script>
-  <script type="text/javascript" src="../js/bootstrap.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="../sweetalert/sweetalert2.min.css">
-  <script type="text/javascript" src="../sweetalert/sweetalert2.min.js" ></script>
-</head>
 
-<body class="fondo"><br><br>
-<div class="container" align="center">
-
-    <span class="titulo2"><?php echo "REGISTRACIÓN DE USUARIO" ?></span><br><br>
+<div class="container" align="center" id="mycontainer"><br>
+  <div><span class="titulo2">REGISTRACIÓN DE USUARIO</span></div><br>
 
     <form method="post" id="formularioProducto" enctype="multipart/form-data">
 
@@ -50,10 +37,6 @@ include_once '../../configuracion.php';
         </div>
     </form><br><br>
 </div>
-</div>
-</body>
-</html>
-
 
 <script type="text/javascript">
 $('#botonRegistrarse').click(function(evento){
@@ -169,48 +152,8 @@ function validarFormulario(){
 
 
 <style type="text/css">
-
-.fondo{
-   background-image: url("../img/fondo5.jpg");
-    background-size:cover;
-    background-position:center;
-    background-repeat:no-repeat;
-    background-attachment: fixed;
-}
 .input-group { 
   width: 35%;
   margin-bottom: 15px;
-}
-
-#imagenBorde{
-  border: #3498DB 1px solid;
-  border-radius: 10px;
-}
-
-.titulo2{
-  color: #3498DB;
-  font-size: 28px;
-  margin-bottom: 10px;
-  font-family: Verdana; 
-}
-
-.subtitulo{
-  /*color: #3498DB;*/
-  color: black;
-  font-size: 18px;
-}
-
-#botonRegistrarse{
-  color: white;
-  background-color: #3498DB;
-  border: 2px solid;
-  border-radius: 10px;
-  height: 40px;
-  width: 110px;
-}
-
-#botonRegistrarse:hover{
-   color: #3498DB;
-   background-color:white;
 }
 </style>
